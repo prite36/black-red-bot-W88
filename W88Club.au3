@@ -74,6 +74,14 @@ Func Start()
 				click_picture("fillMoney")
 				Sleep(300)
 				local $moneyOnFile  = FileReadLine($filePath,1)  ;เปิดไฟล์ดึงค่า
+				If search_area("menuNow10-200THB") and $moneyOnFile > 200 Then
+					click_picture("menuRoulette")
+					click_picture("menu100-2000THB")
+				ElseIf search_area("menuNow100-2000THB") and $moneyOnFile < 200 Then
+					click_picture("menuRoulette")
+					click_picture("menu10-200THB")
+				EndIf
+				sleep(500)
 				send(Floor($moneyOnFile)) ;ใส่เงินในช่อง
 				$Money = $moneyOnFile  ;แทนค่าในตัวแปร เพื่อเอาไปเช็ค
 				FileClose($filePath) ;ปิด File

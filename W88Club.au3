@@ -8,8 +8,9 @@
 
 ;~ MsgBox($MB_OK, "Tutorial", "Hello World!")
 HotKeySet("{PGUP}","_Begin")
+HotKeySet("^{PGUP}","_fixB4Start")
 HotKeySet("{INSERT}","_goToRoulette")
-HotKeySet("^{INSERT}","_fixB4Start")
+HotKeySet("^{INSERT}","_fixB4goTo")
 HotKeySet("{PAUSE}", "_Pause")
 HotKeySet("{PGDN}", "_Exit")
 
@@ -23,7 +24,11 @@ Global  $profitNow = 0				;สร้างไว้ถ้ากำไร ครบ 200 บาทให้พัก
 Global  $profitPerRound =  Random(100,150,1)  ; profit 150 - 250 bath per round
 Global 	$filePath = @ScriptDir&"\LogFile\BetMoney.txt"
 While 1  ;หยุดรอการกด start
-	ToolTip('Start:[PGUP]_First Time:[INSERT]_Pause:[PAUSE]_EXIT:[PGDN] ', 19,0 )
+	local $text =  'Start [PGUP]  Start&fill [Ctrl+PGUP]'&@LF
+		  $text &= 'Run First Time [INSERT] First&Fill [Ctrl+INSERT]'&@LF
+		  $text &= 'Pause [PAUSE]'&@LF
+		  $text &= 'EXIT [PGDN]'&@LF
+	ToolTip($text, 19,0 )
     Sleep(4*60*1000)  ;รอ 4 นาที ถ้ายังไม่กด Bot จะเริ่มทำงาน
 	Send("^{INSERT}")
 WEnd
@@ -36,12 +41,20 @@ Func _Begin()
 
 EndFunc
 
-func _fixB4Start()
+func _fixB4goTo()
 	ToolTip('Fix Money = 10.1 ', 50,0 )
 	$Money = 10.1
 	goWriteFile()
 	_goToRoulette()
 EndFunc
+
+Func _fixB4Start()
+	ToolTip('Fix Money = 10.1 ', 50,0 )
+	$Money = 10.1
+	goWriteFile()
+	Start()
+EndFunc
+
 
 func _goToRoulette()
 	$dropMoney = Random(1,3,1)	;เริ่มแรกให้random ที่วางเงิน
@@ -71,8 +84,6 @@ Func Start()
 		While 1
 			if  search_area("countdownTime") And search_area("fillMoney")  Then  ; ถ้าตัวจับเวลาเปลี่ยนเป็นสีดำ และ ช่องใส่เงินมีสีขึ้น
 				ToolTip('New Round ', 50,0 )
-				click_picture("fillMoney")
-				Sleep(300)
 				local $moneyOnFile  = FileReadLine($filePath,1)  ;เปิดไฟล์ดึงค่า
 				If search_area("menuNow10-200THB") and $moneyOnFile > 200 Then
 					click_picture("menuRoulette")
@@ -82,6 +93,8 @@ Func Start()
 					click_picture("menu10-200THB")
 				EndIf
 				sleep(500)
+				click_picture("fillMoney")
+				Sleep(300)
 				send(Floor($moneyOnFile)) ;ใส่เงินในช่อง
 				$Money = $moneyOnFile  ;แทนค่าในตัวแปร เพื่อเอาไปเช็ค
 				FileClose($filePath) ;ปิด File
@@ -102,7 +115,7 @@ Func Start()
 		WEnd
 
 		local $winStatus = false     ; เก็บค่าสถานะว่า รอบนี้ชนะหรือไม่
-		ToolTip('Wait Wait ', 50,0 )
+		ToolTip('Wait Wait '&$Money&" THB", 50,0 )
 
 		While 1
 			sleep(100)

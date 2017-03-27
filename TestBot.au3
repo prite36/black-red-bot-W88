@@ -11,7 +11,11 @@ HotKeySet("{PGDN}", "_Exit")
  Global $Y =0
 
 While 1  ;หยุดรอการกด start
-	ToolTip('Start:[PGUP]_First Time:[INSERT]_Pause:[PAUSE]_EXIT:[PGDN] ', 19,0 )
+	local $text =  'Start [PGUP]  Start&fill [Ctrl+PGUP]'&@LF
+		  $text &= 'Run First Time [INSERT]'&@LF
+		  $text &= 'Pause [PAUSE]'&@LF
+		  $text &= 'EXIT [PGDN]'&@LF
+	ToolTip($text, 19,0 )
     Sleep(4*60*1000)  ;รอ 4 นาที ถ้ายังไม่กด Bot จะเริ่มทำงาน
 	Send("^{INSERT}")
 WEnd

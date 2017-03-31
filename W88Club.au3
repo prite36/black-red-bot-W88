@@ -81,8 +81,10 @@ Func Start()
 	ToolTip('Bot Start ', 19,0 )
 	$timeRestart = TimerInit()  ;เริ่มจับเวลา
 	While 1
+		ToolTip('Loop while 1 ', 19,0 )
 		While 1
-			Local $hTimer = TimerInit()  ;เริ่มจับเวลา
+			ToolTip('Loop while 2 ', 19,0 )
+			Local $hTimer2 = TimerInit()  ;เริ่มจับเวลา
 			if  search_area("countdownTime") And search_area("fillMoney")  Then  ; ถ้าตัวจับเวลาเปลี่ยนเป็นสีดำ และ ช่องใส่เงินมีสีขึ้น
 				ToolTip('New Round ', 50,0 )
 				local $moneyOnFile  = FileReadLine($filePath,1)  ;เปิดไฟล์ดึงค่า
@@ -114,7 +116,7 @@ Func Start()
 				click_picture("submitButton") ;คลิกปุ่ม ยืนยัน
 				ExitLoop
 			EndIf
-			if TimerDiff($hTimer) > 4*60*1000 Then  ;ถ้าหารูปไม่เจอเกิน 4 นาที ให้กลับไปทำงานใหม่
+			if TimerDiff($hTimer2) > 4*60*1000 Then  ;ถ้าหารูปไม่เจอเกิน 4 นาที ให้กลับไปทำงานใหม่
 				_goToRoulette()
 			EndIf
 		WEnd

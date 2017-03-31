@@ -89,9 +89,11 @@ Func Start()
 				If search_area("menuNow10-200THB") and $moneyOnFile > 200 Then
 					click_picture("menuRoulette")
 					click_picture("menu100-2000THB")
+					sleep(1500)
 				ElseIf search_area("menuNow100-2000THB") and $moneyOnFile < 200 Then
 					click_picture("menuRoulette")
 					click_picture("menu10-200THB")
+					sleep(1500)
 				EndIf
 				sleep(500)
 				click_picture("fillMoney")
@@ -239,14 +241,14 @@ Func goWriteFile($menu="BetMoney")
 		Local $filePatTotalProfit = @ScriptDir&"\LogFile\TotalProfit.txt"
 		local $time  = FileReadLine($filePatTotalProfit,1)  ;เปิดไฟล์ดึงค่า
 		local $TotalProfit  = FileReadLine($filePatTotalProfit,2)  ;เปิดไฟล์ดึงค่า
-		if _NowDate() == $time and $totalProfit < 1000 then      ;ถ้าอยู่ในวันเดียวกัน
+		if _NowDate() == $time and $totalProfit < 1500 then      ;ถ้าอยู่ในวันเดียวกัน
 			if($Money == "10.1") then
 				$TotalProfit += 20
 			else
 				$TotalProfit += 10
 			EndIf
-			ElseIf  _NowDate() == $time and $totalProfit >= 1000 Then
-				_FileWriteLog(@ScriptDir & "\LogFile\LogData.log", "Congreat 1000 Bath This time")
+			ElseIf  _NowDate() == $time and $totalProfit >= 1500 Then
+				_FileWriteLog(@ScriptDir & "\LogFile\LogData.log", "Congreat 1500 Bath This time")
 				$Money = 10.1
 				goWriteFile()
 				Local $waittime = ( (((24-@HOUR)*60) + (Random(60,180,1))) *60)  ; find time and + random  time 1-3 hr
